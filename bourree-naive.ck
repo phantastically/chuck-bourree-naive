@@ -13,8 +13,12 @@
   42, 42, 40, 40, 42, 42, 43, 43, 45, 45, 47, 47, 
   45, 45, 43, 43, 47, 47, 40, 42, 43, 42, 40 ] @=> int notes2[];
 
-SinOsc sineWave1 => dac;
-SinOsc sineWave2 => dac;
+dac.channels() => int num_channels;
+
+<<< "num_channels = " + num_channels >>>;
+
+SinOsc sineWave1 => dac.chan(0);
+SinOsc sineWave2 => dac.chan(1);
 
 0 => int i;
 
@@ -22,7 +26,7 @@ SinOsc sineWave2 => dac;
 1.0 => sineWave2.gain;
 
 for (i; i < song_length; i++) {
-    Std.mtof(notes1[i]) => sineWave1.freq;
+    Std.mtof(12 + notes1[i]) => sineWave1.freq;
     Std.mtof(12 + notes2[i]) => sineWave2.freq;
     
     metronome(240) => now;
